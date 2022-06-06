@@ -1,4 +1,4 @@
-View the e-portfolio here: https://johnny80y.github.io/eportfolio/
+View the ePortfolio here: https://johnny80y.github.io/eportfolio/
 
 
 
