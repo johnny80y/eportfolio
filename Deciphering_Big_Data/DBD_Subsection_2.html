@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Introduction (Unit 1)</title>
+		<title>Data Sources (Units 2-3)</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="../assets/css/main.css" />
@@ -31,35 +31,73 @@
 				<div id="main" class="wrapper style1">
 					<div class="container">
 						<header class="major">
-							<h2>Introduction (Unit 1)</h2>
+							<h2>Data Sources (Units 2-3)</h2>
 							<p>Deciphering Big Data</p>
 						</header>
 
 						<!-- Content -->
 							<section id="content">
 								<a href="#" class="image fit"><img src="images/ink_cropped.jpg" alt="" /></a> <!-- original image: pic07.jpg -->
-								<h3>Beginning the Module (25 January 2023)</h3>
+								<h3>File Handling - Unit 2 (04.02.2023)</h3>
 								<p>
-									<p>This short post will explain my background and my expectations for this module. I hope to compare the module’s progress with these expectations to get a better understanding of my progress.
-										I have a background in data analytics and statistics, so I am very familiar with data wrangling. I can use both R and Python for this purpose and have experience in generating data, cleaning it, merging it with other datasets, structuring it, and finally analyzing it. </p>
-									<p>From this module, I hope to learn how to apply my existing skills to Big Data. Thus far, I have only worked with smaller datasets containing a few thousand rows. However, Big Data requires different tools, libraries, and processing strategies. I hope to gain insights into concepts such as batch processing or event stream processing. I also expect to learn theoretical models for data processing pipelines. Finally, I hope to learn from my professor and fellow students both about Big Data and beyond.
-										A challenge I expect to face lies in the graded project. My previous experiences with group projects have been very mixed, so I am anxious about that part of the module. Luckily, there are ways to reduce freeriding, for example by randomizing assignments, as Swaray (2012) demonstrated, for example.</p>
-									
+									<p>The reading for Unit 2 included instructions about opening, modifying, and closing files in Python (Sarkar & Roychowdhury 2019). As I work in the cybersecurity field, I know from personal experience that ransomware is one of the largest and most expensive threats that companies face today. In fact, according to some reports, there were over 230 million ransomware attacks in the first half of 2022 alone (Griffiths 2023). Notably, this number also includes unsuccessful attacks but that does not diminish the threat posed by this particular type of malware. </p>
+									<p>In order to practice some of the python skills we learned during Unit 2, I decided to start coding my own (very basic and not truly functional) ransomware. It is hosted on GitHub and can be viewed here: <a href="https://github.com/johnny80y/Demo-Ransomware">Demo Ransomware Repository</a></p>
+									<p>Note that this Python script was created to practice file handling only. The “ransomware” only encrypts .txt-files in a hard-coded demo directory, it drops the encryption key in that same directory, and it uses an insecure symmetric cipher. This ensures that my code is unusable for malicious purposes and it kept the project more manageable.</p>
+									<p>What I learned was that Python is a powerful tool for handling files. Playing around with other file types such as .csv od .docx files also worked well, though the more complicated the format got, the more difficulty I was having parsing it (e.g. complicated .docx-files). Overall, I learned why Python is so popular for parsing Big Data consisting of unstructured files. It is simple to use and, as Thomas (2021) found, it is faster than many competing languages.</p>
+																		
 								</p>
 								
 								<b> Sources </b>
 								<ul>
-								<li> Swaray, R. (2012) An evaluation of a group project designed to reduce free-riding and promote active learning. *Assessment & Evaluation in Higher Education* 37(3), 285-292. DOI: http://dx.doi.org/10.1080/02602938.2010.531246</li>
+								<li> Griffiths, C. (2023) The Latest 2023 Ransomware Statistics (updated January 2023). Available From: https://aag-it.com/the-latest-ransomware-statistics/#:~:text=In just the first half,prevalence of this cyber threat. [Accessed 04.02.2023].</li>
+								<li>Sarkar, T. & Roychowdhury, S. (2019) Data Wrangling with Python. 1st ed. Birmingham: Packt Publishing Ltd.</li>
+								<li>Thomas, T. (2021) File Processing in Big Data Systems: Which is Quicker? Which is better? Available from: https://medium.com/geekculture/file-processing-a-comparative-analytics-study-e21b4693b70c [Accessed 04.02.2023].</li>
 								</ul>
 								
 								<!-- Next Entry -->
 								<br>
-								<h3>Peer Discussion - Initial Post (27 January 2023)</h3>
+								<h3>Web Scraping - Unit 3 (08.02.2023)</h3>
 								<p>
-									<p>Huxley (2020) discusses various ways of cleaning quantitative data and explains the statistical implications of various mathematical transformations. In the context of the Internet of Things (IoT), massive data streams lead to new challenges. Tejada (2023) describes how data from IoT devices is often processed in low-latency, high-volume environments. The Lambda and Kappa Architectures, for example, try to facilitate analysis by piping the data through a cold and hot path (batch layer vs. speed layer) simultaneously.</p>
-									<p>While many data processing steps can be automated, machines will sometimes struggle with making appropriate decisions about cleaning and transformations. For example, Huxley (2020) explains how extreme values may result from collection errors, misrepresentations, faulty measuring equipment, or sampling errors. It often takes careful consideration and sometimes an active investigation to find the source of the error and know how to fix a particular data point. Unfortunately, manual or even semi-automated processes are impractical in the Big Data context (Gudivada et al. 2017).</p>
-									<p>Luckily, Machine Learning can be used to distinguish between high- and low-quality data. For example, Wang et al (2020) proposed a “cleaning model” for wireless sensory 5G networks. The model was trained on reliable data and used to automate certain cleaning steps before allowing IoT sensory data to be uploaded to the cloud and used for further analysis.</p>
-									<p>Also, I hypothesize that the sheer mass of data from IoT devices may partially mitigate cleaning issues. Faulty data is numerically insignificant against the enormous amount of other data points - at least as long as errors remain a rare exception. Whether the latter condition is met will, I expect, require careful manual analysis in most cases.</p>
+									<p>One of this week’s main topics was web scraping using the BeautifulSoup and Requests libraries in Python. Simply defined, web scraping is “a technique to extract data from the World Wide Web (WWW) and save it to a file system or database for later retrieval or analysis” (Zhao, 2017). This technique allows the (semi-)automated collection of information from one or several websites, that would otherwise require significant manual labor.</p>
+									<p>The week’s formative activity required us to “Write a web scraping script in Python […] and parse this data into either an XML or JSON file. Perform the web scraping with the beautifulsoup4 and Request program modules.” (University of Essex 2023a). To tackle this activity, I referred to the required reading (Sarkar & Roychowdhury 2019) as well as a YouTube tutorial (Schafer 2017). The information I wanted to scrape was the list of postgraduate computing courses offered by the University of Essex. Note that the robots.txt-file does not forbid crawling of the URL I was interested in, so I was not breaking any university rules with this exercise (University of Essex 2023b). To achieve this, I wrote the following Python script:</p>
+									<pre>
+										from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+
+source = requests.get('https://online.essex.ac.uk/subjects/computing#PGcourselis').content # get the html code of the website
+soup = BeautifulSoup(source, 'lxml')
+
+courseList = soup.find_all('div', class_ = 'courses-grid-item-wrapper')
+# returns a list of all these elements
+
+titleResults = []
+modeResults = []
+locationResults = []
+durationResults = []
+
+for course in courseList:
+    courseText = course.a.text # grab the text only
+    courseText = courseText.replace('\t', '')   # remove tabs
+    courseTextStringList = courseText.split('\n')   # save a list of strings with the different lines
+
+    title = courseTextStringList[3] # get title
+    mode = courseTextStringList[8] # get study mode
+    location = courseTextStringList[12] # get location
+    duration = courseTextStringList[16] # get duration
+	
+		titleResults.append(title)
+    modeResults.append(mode)
+    locationResults.append(location)
+    durationResults.append(duration)
+
+# Turn the resulting list to a pandas dataframe:
+df = pd.DataFrame(list(zip(titleResults, modeResults, locationResults, durationResults)),
+               columns =['Title', 'Study_Mode', 'Location', 'Duration'])
+
+# Save as .json-file:
+df.to_json('Essex_PG_Computing_Program.json', orient='records')
+									</pre>
 
 								</p>
 								
