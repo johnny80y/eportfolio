@@ -35,113 +35,193 @@
 							<p>Deciphering Big Data</p>
 						</header>
 
-						<!-- Content -->
-							<section id="content">
-								<a href="#" class="image fit"><img src="images/ink_cropped.jpg" alt="" /></a> <!-- original image: pic07.jpg -->
-								<h3>File Handling - Unit 2</h3>
+
+
+								
+<!-- Entry 1--><br>
 								<p>
-									<p>The reading for Unit 2 included instructions about opening, modifying, and closing files in Python (Sarkar & Roychowdhury 2019). As I work in the cybersecurity field, I know from personal experience that ransomware is one of the largest and most expensive threats that companies face today. In fact, according to some reports, there were over 230 million ransomware attacks in the first half of 2022 alone (Griffiths 2023). Notably, this number also includes unsuccessful attacks but that does not diminish the threat posed by this particular type of malware. </p>
-									<p>In order to practice some of the python skills we learned during Unit 2, I decided to start coding my own (very basic and not truly functional) ransomware. It is hosted on GitHub and can be viewed here: <a href="https://github.com/johnny80y/Demo-Ransomware">Demo Ransomware Repository</a></p>
-									<p>Note that this Python script was created to practice file handling only. The “ransomware” only encrypts .txt-files in a hard-coded demo directory, it drops the encryption key in that same directory, and it uses an insecure symmetric cipher. This ensures that my code is unusable for malicious purposes and it kept the project more manageable.</p>
-									<p>What I learned was that Python is a powerful tool for handling files. Playing around with other file types such as .csv od .docx files also worked well, though the more complicated the format got, the more difficulty I was having parsing it (e.g. complicated .docx-files). Overall, I learned why Python is so popular for parsing Big Data consisting of unstructured files. It is simple to use and, as Thomas (2021) found, it is faster than many competing languages.</p>
-																		
+									<h3>Reflection on Group Project #1</h3>
+									(28 February 2023)
+								</p>	
+								
+								<p>
+									Designing a database and thinking about its implementation using the database system development lifecycle (Connolly & Begg, 2014) allowed my partner and me to understand the importance of well-designed databases that integrate well with a company’s applications, and that enable efficient operations/business processes. For our assignment, we designed a relational MySQL database for a fictional food delivery startup called FoodTaxi.
 								</p>
+								<p>
+									The database development lifecycle gave us a step-by-step process that we could follow in our design phase. We started by gathering requirements and analyzing the different user groups. We also identified data entities, relationships, and attributes that will comprise the database. In doing so, we developed a deep understanding of the data we would be working with, which taught us how it could be organized within the database.
+								</p>
+								<p>
+									Our next step was the actual database design, where we created a logical data model that captured the relationships between tables. Building on this, we started with the physical database design and translated the conceptual data model into a schema with pre-defined data types. This process required a deep understanding of the database and the relationships we wanted to implement.
+								</p>
+								<p>
+									After completing the physical model, we were able to imagine how data would be entered, stored, and accessed, which would become relevant in the next lifecycle step – implementation. Thus, we wrote a strategy for the database implementation, where we described how we would create and fill the different tables and relationships. This, we decided, would best be done using Python scripts that enable us to work seamlessly with MySQL. In addition, Python would work well with the user-facing applications FoodTaxi will be using. This way, we hope to ensure that the database will be efficient and functional.
+								</p>
+								<p>
+									Our group consisted of two people and we knew and trusted each other from previous seminars. Thus, we did not require or take meeting notes. Through a series of video calls and a shared Google Doc, we collected the assignment requirements and distributed the work among earth other. As I am more technically focused, I mostly contributed to the technical design and specifications of the database. My partner contributed mostly to the business aspects and the user requirements. We both worked on the database diagram together. Overall, the collaboration with my team partner worked very well and both sides were able to contribute in accordance with their particular strengths.
+								</p>
+								<p>
+									In conclusion, the project of designing a database using the database system development lifecycle was a challenging but interesting experience. It provided us with insights into the design of backend systems and databases. The project allowed us to apply our theoretical knowledge in a more practical setting and thereby develop skills that will likely be very useful for this module and beyond. The collaboration with my partner was pleasant and balanced.
+								</p>
+
+								<p>
+									<b>Sources</b>
+									<ul>
+										<li>
+											Connolly, T., Begg, C. (2014) <i>Database Systems. A Practical Approach to Design, Implementation, and Management</i>. 6th ed. Harlow: Pearson Education Limited.
+										</li>
+									</ul>
+								</p>
+
+
+
+
+<!-- Entry 2--><br>
+								<p>
+									<h3>Data Normalization Task</h3>
+									(04 March 2023)
+								</p>	
 								
-								<b> Sources </b>
-								<ul>
-								<li> Griffiths, C. (2023) The Latest 2023 Ransomware Statistics (updated January 2023). Available From: https://aag-it.com/the-latest-ransomware-statistics/#:~:text=In just the first half,prevalence of this cyber threat. [Accessed 04.02.2023].</li>
-								<li>Sarkar, T. & Roychowdhury, S. (2019) Data Wrangling with Python. 1st ed. Birmingham: Packt Publishing Ltd.</li>
-								<li>Thomas, T. (2021) File Processing in Big Data Systems: Which is Quicker? Which is better? Available from: https://medium.com/geekculture/file-processing-a-comparative-analytics-study-e21b4693b70c [Accessed 04.02.2023].</li>
-								</ul>
-								
-								<!-- Next Entry -->
+								<p>
+									This week’s task is to normalize a given excel spreadsheet to the third normal form. We normalize data to “identify a suitable set of relations that support the data requirements of an enterprise” (Connolly & Begg, 2014: 452). Such relations are characterized by three factors that make maintaining and storing a database more efficient. These factors are described by Connolly and Begg (2014): First, we use the “minimal number of attributes”. Second, attributes that belong together logically are also tied together in the database. Third, there is as little redundancy as possible.
+								</p>
+								<p>
+									The unnormalized table we are given to work with looks as follows:
+								</p>
+								<center>
+									<img src="../images/1_normalization.png" alt="Graph 2" style="height:360px">
+								</center>
 								<br>
-								<h3>Web Scraping - Unit 3</h3>
 								<p>
-									<p>One of this week’s main topics was web scraping using the BeautifulSoup and Requests libraries in Python. Simply defined, web scraping is “a technique to extract data from the World Wide Web (WWW) and save it to a file system or database for later retrieval or analysis” (Zhao, 2017). This technique allows the (semi-)automated collection of information from one or several websites, that would otherwise require significant manual labor.</p>
-									<p>The week’s formative activity required us to “Write a web scraping script in Python […] and parse this data into either an XML or JSON file. Perform the web scraping with the beautifulsoup4 and Request program modules.” (University of Essex 2023a). To tackle this activity, I referred to the required reading (Sarkar & Roychowdhury 2019) as well as a YouTube tutorial (Schafer 2017). The information I wanted to scrape was the list of postgraduate computing courses offered by the University of Essex. Note that the robots.txt-file does not forbid crawling of the URL I was interested in, so I was not breaking any university rules with this exercise (University of Essex 2023b). To achieve this, I wrote the following Python script:</p>
-									<pre>
-										<code>
-from bs4 import BeautifulSoup
-import requests
-import pandas as pd
-
-source = requests.get('https://online.essex.ac.uk/subjects/computing#PGcourselis').content # get the html code of the website
-soup = BeautifulSoup(source, 'lxml')
-
-courseList = soup.find_all('div', class_ = 'courses-grid-item-wrapper')
-# returns a list of all these elements
-
-titleResults = []
-modeResults = []
-locationResults = []
-durationResults = []
-
-for course in courseList:
-    courseText = course.a.text # grab the text only
-    courseText = courseText.replace('\t', '')   # remove tabs
-    courseTextStringList = courseText.split('\n')   # save a list of strings with the different lines
-
-    title = courseTextStringList[3] # get title
-    mode = courseTextStringList[8] # get study mode
-    location = courseTextStringList[12] # get location
-    duration = courseTextStringList[16] # get duration
-	
-		titleResults.append(title)
-    modeResults.append(mode)
-    locationResults.append(location)
-    durationResults.append(duration)
-
-# Turn the resulting list to a pandas dataframe:
-df = pd.DataFrame(list(zip(titleResults, modeResults, locationResults, durationResults)),
-               columns =['Title', 'Study_Mode', 'Location', 'Duration'])
-
-# Save as .json-file:
-df.to_json('Essex_PG_Computing_Program.json', orient='records')
-										</code>
-									</pre>
-									
-									<p>The resulting dataframe looks like this:</p>
-									<img src="../images/2023_02_05scraping_result.png" alt="Module Structure" style="width7260px;height:360px;">
-									
-									<p>The main lesson I learned is that web scraping is unlike most other python projects we have performed in this program. The reason is that the actual code I wrote was not difficult. Instead, I struggled with the external HTML-code of an unfamiliar website. Once I had an understanding of how the website was structured, however, the actual scraping was very easy.</p>
+									<b>First Normal Form</b><br>
+									<i>“A relation in which the intersection of each row and column contains one and only one value.” (Connolly & Begg, 2014: 466)</i>
 								</p>
-								
-								<b> Sources </b>
-								<ul>
-								<li>Sarkar, T. & Roychowdhury, S. (2019) Data Wrangling with Python. 1st ed. Birmingham: Packt Publishing Ltd.</li>
-								<li>Schafer, C. (2017) Python Tutorial: Web Scraping with BeautifulSoup and Requests. Available from: https://www.youtube.com/watch?v=ng2o98k983k [Accessed 08 February 2023].</li>
-								<li>University of Essex (2023a) Deciphering Big Data January 2023 – Unit 3 – Web Scraping. Available from:  https://www.my-course.co.uk/mod/page/view.php?id=753965 [Accessed 08 February 2023].</li>
-								<li>University of Essex (2023b) robots.txt. Available from: https://www.essex.ac.uk/robots.txt [Accessed 05 February 2023].</li>
-								<li>Zhao, B. (2017) ‘Web Scraping’, in: Schintler, L., McNeely, C. (eds) Encyclopedia of Big Data. Springer: 1-3. DOI: https://doi.org/10.1007/978-3-319-32001-4_483-1</li>
-								</ul>
-								
-								<!-- Next Entry -->
+								<p>
+									The primary key in this table is “Student Number”. Our task is to make sure that every cell holds an atomic value. According to the lecturecast (University of Essex 2023), this means that there must not be more than one value per intersection of rows and columns. In this table, every student has several subjects that share the same position in the table. After fixing this, the table looks as follows:
+								</p>
+								<center>
+									<img src="../images/2_normalization.png" alt="Graph 2" style="height:360px">
+								</center>
 								<br>
-								<h3>Collaborative Discussion - Summary Post (12.02.2023)</h3>
 								<p>
-									<p>Our discussion revolved around the topic of data cleaning in the context of the Internet of Things (IoT) and the challenges it presents. The article by Huxley (2020), discussed various mathematical transformations in the data-cleaning process. Applying manual processes to Big Data is, however, usually not feasible (Gudivada et al. 2017). Thus, Tejada (2023) outlined the Lambda and Kappa Architectures, which try to solve this problem by processing the data through two paths (batch layer vs speed layer). </p>
-									<p>Another approach mentioned to solve the problem of speedily cleaning massive amounts of real-time IoT data was proposed by Wang et al. (2020). After being asked to elaborate by one of my fellow students, I explained how the authors proposed introducing a set of edge nodes between the IoT sensors and the centralized cloud storage. Each of these nodes would learn the behavior of their subset of attached sensors and then automatically clean data before passing it on to the cloud to get analyzed.</p>
-									<p>With two other students, the discussion centered around the level of necessary cleaning in a Big Data context. I argued that Data Cleaning offers diminishing returns. As one requires more perfect data, the cost of cleaning increases dramatically. It can be difficult to tell when the time has come to stop cleaning (Amadebai 2023). At some point, however, the data is “clean enough” and a trade-off between cleaning costs and tolerating erroneous data points must be made. Additionally, as Weathington (2017) points out, many statistical techniques can account for errors and do not require perfect data.</p>
-									<p>In conclusion, the discussion revealed that data cleaning is a vital part of the Data Science process. However, Big Data, and especially IoT data, strain the limits of manual and semi-automated processes. Instead, automated processes need to be put in place along with robust algorithms that can absorb a certain amount of faulty data. </p>
+									Note that the Student Number is no longer unique, so it cannot serve as the primary key anymore. For this table, a composite key made up of Student Number and Course Name would make sense. Note that this system would not work if students are able to take the same class twice because then uniqueness is not guaranteed. In that case, a semester column would need to be added to the table or an auto-incrementing counter could be used as a key.
 								</p>
-								<b>Sources</b>
-								<ul>
-									<li>Amadebai, E. (2023) How Much Does Data Cleaning Cost? And Is It Necessary? Available from: https://www.analyticsfordecisions.com/data-cleaning-cost/ [Accessed 12 February 2023].</li>
-									<li>Gudivada, V., Apon, A. & Ding, J. (2017) Data Quality Considerations for Big Data and Machine Learning: Going Beyond Data Cleaning and Transformations. International Journal on Advances in Software 10(1): 1-20.</li>
-									<li>Huxley, K. (2020) ‘Data Cleaning’, in Atkinson, P., Delamont, S., Cernat, A., Sakshaug, J. & Williams, R. (eds.) SAGE Research Methods Foundations. DOI: https://dx.doi.org/10.4135/9781526421036842861</li>
-									<li>Tejada (2023) Big Data Architectures. Available from: https://learn.microsoft.com/en-us/azure/architecture/data-guide/big-data/ [Accessed 12 February 2023].</li>
-									<li>Wang et al. (2020) Big Data Cleaning Based on Mobile Edge Computing in Industrial Sensor-Cloud. IEEE Transactions on Industrial Informatics 16(2): 1321-1329. DOI: https://doi.org/10.1109/TII.2019.2938861</li>
-									<li>Weathington, J. (2917) Stop overdoing it when cleaning your big data. Available from: https://www.techrepublic.com/article/stop-overdoing-it-when-cleaning-your-big-data/ [Accessed 12 February 2023].</li>
-								</ul>
+								<p>
+									For this exercise, it suffices to use a composite key made up of Student Number and Course Name, so I will continue with this simplification.
+								</p>
+								<p>
+									<b>Second Normal Form</b><br>
+									<i>“A relation that is in first normal form and every non-primary-key attribute is fully functionally dependent on the primary key.” (Connolly & Begg, 2014: 470)</i>
+								</p>
+								<p>
+									The table above contains a lot of repeating values. The second normal form requires us to remove redundancies. Thus, we can split the table up into three separate tables. The COURSES table contains all information on the different courses students may enroll in and uses the Course Name as the primary key. Again this is a simplification because courses may be repeated with different teachers in later semesters. However, for this exercise, this level of granularity is sufficient.
+								</p>
+								<center>
+									<img src="../images/3_normalization.png" alt="Graph 2" style="height:360px">
+								</center>
+								<br>
+								<p>
+									The STUDENTS table contains all information on the individual students and uses Student Number as the primary key:
+								</p>
+								</p>
+								<center>
+									<img src="../images/4_normalization.png" alt="Graph 2" style="height:360px">
+								</center>
+								<br>
+								<p>
+									Finally, the ENROLLMENTS table connects students and courses. The primary key is a composite of both columns:
+								</p>
+							</p>
+							<center>
+								<img src="../images/5_normalization.png" alt="Graph 2" style="height:360px">
+							</center>
+							<br>
+							<p>
+								These three tables meet the second normal form because all unnecessary redundancy has been eliminated.
+							</p>
+							<p>
+								<b>Third Normal Form</b><br>
+								<i>“A relation that is in first and second normal form and in which no non-primary-key attribute is transitively dependent on the primary key.” (Connolly & Begg, 2014: 472)</i>
+							</p>
+							<p>
+								As there is no transitive dependency in these tables, they are already in third normal form and the exercise is complete.
+							</p>
+							<p>
+								<b>Database Build Task</b><br>
+							</p>
+							<p>
+								The second part of the task instructed us to design the appropriate database. For this, I use an application called QuickDBD (2023). The three tables are created with all of their rows and the respective data types. The primary keys are indicated by the key icons. Note that the relationships are all one-to-many relationships. Every Student can be enrolled in multiple classes and every class can contain multiple students.
+							</p>
+						</p>
+						<center>
+							<img src="../images/6_normalization.png" alt="Graph 2" style="height:360px">
+						</center>
+						<br>
+						<p>
+							The MySQL-code to create this database can conveniently be generated from this diagram (QuickDBD 2023) and looks like this:
+						</p>
+						<pre>
+							<code>
+CREATE TABLE `STUDENTS` (
+    `StudentNumber` INT  NOT NULL ,
+    `StudentName` VARCHAR(50)  NOT NULL ,
+    `ExamScore` INT  NOT NULL ,
+    `Support` BOOL  NOT NULL ,
+    `Birthday` DATE  NOT NULL ,
+    PRIMARY KEY (
+        `StudentNumber`
+    )
+);
+
+CREATE TABLE `COURSES` (
+    `CourseName` VARCHAR(30)  NOT NULL ,
+    `TeacherName` VARCHAR(50)  NOT NULL ,
+    `ExamBoards` VARCHAR(10)  NOT NULL ,
+    PRIMARY KEY (
+        `CourseName`
+    )
+);
+
+CREATE TABLE `ENROLLMENTS` (
+    `StudentNumber` INT  NOT NULL ,
+    `CourseName` VARCHAR(30)  NOT NULL ,
+    PRIMARY KEY (
+        `StudentNumber`,`CourseName`
+    )
+);
+
+ALTER TABLE `ENROLLMENTS` ADD CONSTRAINT `fk_ENROLLMENTS_StudentNumber` FOREIGN KEY(`StudentNumber`)
+REFERENCES `STUDENTS` (`StudentNumber`);
+
+ALTER TABLE `ENROLLMENTS` ADD CONSTRAINT `fk_ENROLLMENTS_CourseName` FOREIGN KEY(`CourseName`)
+REFERENCES `COURSES` (`CourseName`);
+							</code>
+						</pre>
+						<p>
+							<b>Conclusion</b><br>
+						</p>
+						<p>
+							Practicing the normalization of databases is a useful activity to further the understanding of this challenging concept. However, as we were already required to design a normalized database for the group project last week, I feel like this exercise would have benefitted us more had we done it two weeks ago before actually being graded on the same activity. Still, this was an educational experience that will improve my understanding of database design for the second part of our group project.
+						</p>
+
+									
+
+								<p>
+									<b>Sources</b>
+									<ul>
+										<li>
+											Connolly, T., Begg, C. (2014) <i>Database Systems. A Practical Approach to Design, Implementation, and Management</i>. 6th ed. Harlow: Pearson Education Limited.
+										</li>
+										<li>
+											QuickDBD (2023) QuickDBD. Available from: https://app.quickdatabasediagrams.com/#/ [Accessed 04 March 2023].
+										</li>
+										<li>
+											University of Essex (2023) Database Design (Normalization). Available from: https://www.my-course.co.uk/course/view.php?id=9449&section=13 [Accessed 04 March 2023].
+										</li>
+									</ul>
+								</p>
 
 
 
-
-							</section>
-
-					</div>
-				</div>
 
 			<!-- Footer -->
 				<footer id="footer">

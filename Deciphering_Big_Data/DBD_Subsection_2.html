@@ -81,14 +81,114 @@
 								</p>	
 
 								<p>
-									text
+									It is currently the 10th of March and I practiced file handling again. This time, I wrote a script that would select a folder, index all files, and search them for a specific string of characters. The reason I started this project was that I was looking for a specific piece of information in a file dump and thought to automate the process. In the future, I would like to add regex rules to search for string patterns instead of only searching for specific keywords.
+								</p>
+								<p>
+									The first step was to import my libraries and use tkinter (Python Software Foundation, 2023) to open a pop-up window that would allow the user to comfortably select a folder using windows file explorer:
+								</p>
+								<pre>
+									<code>
+import os
+from tkinter.filedialog import askdirectory
+from docx import Document
+import csv
+
+# If we want to enumerate files, use this loop and create a list of lists 
+# (each list containing one file's contents)
+dir_path = askdirectory()
+									</code>
+								</pre>
+								<p>
+									Next, we loop through all files in that directory. Note that I haven’t added support for subdirectories yet but plan to do so in the future. Currently, the script supports .txt, .csv, and .docx files.
+								</p>
+								<pre>
+									<code>
+fileList = [] # new list
+for file in os.listdir(dir_path):
+    if '.txt' in file:  # I only want to search .txt-files for now
+        fileList.append(file)
+    if '.docx' in file: #NEW for DOCX
+        fileList.append(file) ##NEW for DOCX
+    if '.csv' in file:  # NEW for CSV
+         fileList.append(file)  ##NEW for CSV
+									</code>
+								</pre>
+								<p>
+									Using the list of files, we create a dictionary that uses the filenames as key values and uses the file’s contents as attributes. For particularly large files, this may lead to storage problems but for the files I tested, it ran without issues. note that we read files using the .readlines method (Python Software Foundation, 2023). This will allow us to locate our keyword using the filename and the line number in that document.
+								</p>
+								<pre>
+									<code>
+# Create an empty dictionary with only the key-values (=filenames):
+masterFile = {} # empty dictionary which I will fill with EVERYTHING
+for i in fileList:    # loop through the file list
+    masterFile[i] = []    # add the filename as a key and nothing as its content
+
+# loop through the dict and ass the file contents as lists to the respective keys:
+for file in masterFile:
+    if '.txt' in file:
+        #print(masterFile[file])
+        fileLines = open(dir_path + "/" + file).readlines()
+        #print(fileLines)
+        masterFile.update({file: fileLines})
+    elif '.docx' in file:
+        document = Document(dir_path + "/" + file)
+        docText = '\n\n'.join(paragraph.text for paragraph in document.paragraphs)
+        fileLines = docText.splitlines()
+        masterFile.update({file: fileLines})
+    elif '.csv' in file:
+        inputfile = (dir_path + "/" + file)
+        fileLines = []
+        with open(inputfile, "r") as f:
+            reader = csv.reader(f, delimiter="\t")
+            for row in reader:
+                fileLines.append(row)
+        masterFile.update({file: fileLines})
+									</code>
+								</pre>
+								<p>
+									Finally, we define a function that searches this dictionary for the desired keyword:
+								</p>
+								<pre>
+									<code>
+def search_in_list(search_key, fileLines): # content list = list of lines from  file
+    discoveries = []   # empty list for the indices of search results
+    for i in range(len(fileLines)): # "i" is a counter for list items (=text line)
+        text_str = str(fileLines[i])          # save the list's content
+        if search_key.lower() in text_str.lower():
+            discoveries.append(i + 1) # append index to list of found matches
+    # Now we use the list of matches to print the lines in which the match was found:
+    for x in discoveries:
+        print("      Line: ", x, "      Content:  ", fileLines[x - 1])
+    # In the background I also write the output to a file:
+        results = ("Line: " + str(x) + "  Content:  " + str(fileLines[x - 1]))
+        SearchResults = open(dir_path + "/" +'SearchResults.html', 'a')
+        SearchResults.write(results + "<br/> <br/>")    # f.write(str(word)+"\n")
+        SearchResults.close()
+
+# Loop through the dictionary and apply this custom search function to all files:
+search_key = input('Please enter a search term here:   ')
+for x in masterFile:
+    print("RESULTS IN FILE:   ", x)
+    search_in_list(search_key, masterFile[x])
+
+# Run the script:
+search_key = "and"  # for demo purposes, I hardcode the search key
+print("TEST:")
+search_in_list(search_key, fileLines) # call the functions and returns the results
+									</code>
+								</pre>
+								<p>
+									In summary, this little script allows a user to select a folder using Windows’s native file explorer. It then searches all text/csv/docx-files in that directory for a keyword. The following steps in the development process for this script would be to allow the user to enter the search term instead of using a hardcoded key. I will also add a crawler function that indexes files in subdirectories of the chosen path. Finally, support for additional file types such as .pptx would be a potential improvement.
+								</p>
+								<p>
+									This little project is not technically part of the curriculum but I used it to apply the skills I learned and found that file handling works similarly for different file types. For more complex file types, I would need to use other functions.
 								</p>
 
 								<p>
 									<b>Sources</b>
 									<ul>
 										<li>
-											reference
+											Python Software Foundation (2023) 3.11.2 Documentation. Available from: https://docs.python.org/3/index.html [Accessed 10 March 2023].
 										</li>
 									</ul>
 								</p>
@@ -98,75 +198,25 @@
 
 <!-- Entry 3--><br>
 								<p>
-									<h3>title</h3>
-									DATE
+									<h3>Web Scraping</h3>
+									(08 February 2023)
 								</p>	
 								
 								<p>
-									text
+									One of this week’s main topics was web scraping using the BeautifulSoup (Richardson, 2023) and Requests (Reitz, 2023) libraries in Python. Simply defined, web scraping is “a technique to extract data from the World Wide Web (WWW) and save it to a file system or database for later retrieval or analysis” (Zhao, 2017). This technique allows the (semi-)automated collection of information from one or several websites, that would otherwise require significant manual labor.
 								</p>
-
 								<p>
-									<b>Sources</b>
-									<ul>
-										<li>
-											reference
-										</li>
-									</ul>
+									The week’s formative activity required us to “Write a web scraping script in Python […] and parse this data into either an XML or JSON file. Perform the web scraping with the beautifulsoup4 and Request program modules.” (University of Essex 2023a). To tackle this activity, I referred to the required reading (Sarkar & Roychowdhury 2019) as well as a YouTube tutorial (Schafer 2017). The information I wanted to scrape was the list of postgraduate computing courses offered by the University of Essex. Note that the robots.txt file does not forbid crawling of the URL I was interested in, so I was not breaking any university rules with this exercise (University of Essex 2023b). To achieve this, I wrote the following Python script:
 								</p>
-
-
-
-
-<!-- Entry 4--><br>
-								<p>
-									<h3>title</h3>
-									DATE
-								</p>	
-								
-								<p>
-									text
-								</p>
-
-								<p>
-									<b>Sources</b>
-									<ul>
-										<li>
-											reference
-										</li>
-									</ul>
-								</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-								
-<!-- DELETEME -->
-								<br>
-								<h3>Web Scraping - Unit 3</h3>
-								<p>
-									<p>One of this week’s main topics was web scraping using the BeautifulSoup and Requests libraries in Python. Simply defined, web scraping is “a technique to extract data from the World Wide Web (WWW) and save it to a file system or database for later retrieval or analysis” (Zhao, 2017). This technique allows the (semi-)automated collection of information from one or several websites, that would otherwise require significant manual labor.</p>
-									<p>The week’s formative activity required us to “Write a web scraping script in Python […] and parse this data into either an XML or JSON file. Perform the web scraping with the beautifulsoup4 and Request program modules.” (University of Essex 2023a). To tackle this activity, I referred to the required reading (Sarkar & Roychowdhury 2019) as well as a YouTube tutorial (Schafer 2017). The information I wanted to scrape was the list of postgraduate computing courses offered by the University of Essex. Note that the robots.txt-file does not forbid crawling of the URL I was interested in, so I was not breaking any university rules with this exercise (University of Essex 2023b). To achieve this, I wrote the following Python script:</p>
-									<pre>
-										<code>
+								<pre>
+									<code>
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-source = requests.get('https://online.essex.ac.uk/subjects/computing#PGcourselis').content # get the html code of the website
+# get the html code of the website
+url_object = 'https://online.essex.ac.uk/subjects/computing#PGcourselis'
+source = requests.get(url_object).content 
 soup = BeautifulSoup(source, 'lxml')
 
 courseList = soup.find_all('div', class_ = 'courses-grid-item-wrapper')
@@ -180,7 +230,8 @@ durationResults = []
 for course in courseList:
     courseText = course.a.text # grab the text only
     courseText = courseText.replace('\t', '')   # remove tabs
-    courseTextStringList = courseText.split('\n')   # save a list of strings with the different lines
+		# save a list of strings with the different lines:
+    courseTextStringList = courseText.split('\n')   
 
     title = courseTextStringList[3] # get title
     mode = courseTextStringList[8] # get study mode
@@ -198,50 +249,91 @@ df = pd.DataFrame(list(zip(titleResults, modeResults, locationResults, durationR
 
 # Save as .json-file:
 df.to_json('Essex_PG_Computing_Program.json', orient='records')
-										</code>
-									</pre>
-									
-									<p>The resulting dataframe looks like this:</p>
-									<img src="../images/2023_02_05scraping_result.png" alt="Module Structure" style="width7260px;height:360px;">
-									
-									<p>The main lesson I learned is that web scraping is unlike most other python projects we have performed in this program. The reason is that the actual code I wrote was not difficult. Instead, I struggled with the external HTML-code of an unfamiliar website. Once I had an understanding of how the website was structured, however, the actual scraping was very easy.</p>
-								</p>
-								
-								<b> Sources </b>
-								<ul>
-								<li>Sarkar, T. & Roychowdhury, S. (2019) Data Wrangling with Python. 1st ed. Birmingham: Packt Publishing Ltd.</li>
-								<li>Schafer, C. (2017) Python Tutorial: Web Scraping with BeautifulSoup and Requests. Available from: https://www.youtube.com/watch?v=ng2o98k983k [Accessed 08 February 2023].</li>
-								<li>University of Essex (2023a) Deciphering Big Data January 2023 – Unit 3 – Web Scraping. Available from:  https://www.my-course.co.uk/mod/page/view.php?id=753965 [Accessed 08 February 2023].</li>
-								<li>University of Essex (2023b) robots.txt. Available from: https://www.essex.ac.uk/robots.txt [Accessed 05 February 2023].</li>
-								<li>Zhao, B. (2017) ‘Web Scraping’, in: Schintler, L., McNeely, C. (eds) Encyclopedia of Big Data. Springer: 1-3. DOI: https://doi.org/10.1007/978-3-319-32001-4_483-1</li>
-								</ul>
-								
-								<!-- Next Entry -->
-								<br>
-								<h3>Collaborative Discussion - Summary Post (12.02.2023)</h3>
+									</code>
+								</pre>
 								<p>
-									<p>Our discussion revolved around the topic of data cleaning in the context of the Internet of Things (IoT) and the challenges it presents. The article by Huxley (2020), discussed various mathematical transformations in the data-cleaning process. Applying manual processes to Big Data is, however, usually not feasible (Gudivada et al. 2017). Thus, Tejada (2023) outlined the Lambda and Kappa Architectures, which try to solve this problem by processing the data through two paths (batch layer vs speed layer). </p>
-									<p>Another approach mentioned to solve the problem of speedily cleaning massive amounts of real-time IoT data was proposed by Wang et al. (2020). After being asked to elaborate by one of my fellow students, I explained how the authors proposed introducing a set of edge nodes between the IoT sensors and the centralized cloud storage. Each of these nodes would learn the behavior of their subset of attached sensors and then automatically clean data before passing it on to the cloud to get analyzed.</p>
-									<p>With two other students, the discussion centered around the level of necessary cleaning in a Big Data context. I argued that Data Cleaning offers diminishing returns. As one requires more perfect data, the cost of cleaning increases dramatically. It can be difficult to tell when the time has come to stop cleaning (Amadebai 2023). At some point, however, the data is “clean enough” and a trade-off between cleaning costs and tolerating erroneous data points must be made. Additionally, as Weathington (2017) points out, many statistical techniques can account for errors and do not require perfect data.</p>
-									<p>In conclusion, the discussion revealed that data cleaning is a vital part of the Data Science process. However, Big Data, and especially IoT data, strain the limits of manual and semi-automated processes. Instead, automated processes need to be put in place along with robust algorithms that can absorb a certain amount of faulty data. </p>
+									The resulting dataframe looks like this:
 								</p>
-								<b>Sources</b>
-								<ul>
-									<li>Amadebai, E. (2023) How Much Does Data Cleaning Cost? And Is It Necessary? Available from: https://www.analyticsfordecisions.com/data-cleaning-cost/ [Accessed 12 February 2023].</li>
-									<li>Gudivada, V., Apon, A. & Ding, J. (2017) Data Quality Considerations for Big Data and Machine Learning: Going Beyond Data Cleaning and Transformations. International Journal on Advances in Software 10(1): 1-20.</li>
-									<li>Huxley, K. (2020) ‘Data Cleaning’, in Atkinson, P., Delamont, S., Cernat, A., Sakshaug, J. & Williams, R. (eds.) SAGE Research Methods Foundations. DOI: https://dx.doi.org/10.4135/9781526421036842861</li>
-									<li>Tejada (2023) Big Data Architectures. Available from: https://learn.microsoft.com/en-us/azure/architecture/data-guide/big-data/ [Accessed 12 February 2023].</li>
-									<li>Wang et al. (2020) Big Data Cleaning Based on Mobile Edge Computing in Industrial Sensor-Cloud. IEEE Transactions on Industrial Informatics 16(2): 1321-1329. DOI: https://doi.org/10.1109/TII.2019.2938861</li>
-									<li>Weathington, J. (2917) Stop overdoing it when cleaning your big data. Available from: https://www.techrepublic.com/article/stop-overdoing-it-when-cleaning-your-big-data/ [Accessed 12 February 2023].</li>
-								</ul>
+									<center>
+										<img src="../images/2023_02_05scraping_result.png" alt="Module Structure" style="width7260px;height:360px;">p>
+									</center>
+								<p>
+									The main lesson I learned is that web scraping is unlike most other Python projects we have performed in this program. The reason is that the actual code I wrote was not difficult. Instead, I struggled with the external HTML code of an unfamiliar website. Once I had an understanding of how the website was structured, however, the actual scraping was very easy. I also wish to mention that this was not my first time doing web scraping, so most of the unit’s contents were at least somewhat familiar to me.
+								</p>
+
+								<p>
+									<b>Sources</b>
+									<ul>
+										<li>
+											Reitz, K. (2023) Requests: HTTP for Humans. Available from: https://requests.readthedocs.io/en/latest/ [Accessed 08 February 2023].
+										</li>
+										<li>
+											Richardson, L. (2023) Beautiful Soup Documentation. Available from: https://beautiful-soup-4.readthedocs.io/en/latest/ [Accessed 08 February 2023].
+										</li>
+										<li>
+											Sarkar, T. & Roychowdhury, S. (2019) <i>Data Wrangling with Python</i>. 1st ed. Birmingham: Packt Publishing Ltd.
+										</li>
+										<li>
+											Schafer, C. (2017) Python Tutorial: Web Scraping with BeautifulSoup and Requests. Available from: https://www.youtube.com/watch?v=ng2o98k983k [Accessed 08 February 2023].
+										</li>
+										<li>
+											University of Essex (2023a) Deciphering Big Data January 2023 – Unit 3 – Web Scraping. Available from:  https://www.my-course.co.uk/mod/page/view.php?id=753965 [Accessed 08 February 2023].
+										</li>
+										<li>
+											University of Essex (2023b) robots.txt. Available from: https://www.essex.ac.uk/robots.txt [Accessed 05 February 2023].
+										</li>
+										<li>
+											Zhao, B. (2017) ‘Web Scraping’, in: Schintler, L., McNeely, C. (eds) Encyclopedia of Big Data. Springer: 1-3. DOI: https://doi.org/10.1007/978-3-319-32001-4_483-1
+										</li>
+									</ul>
+								</p>
 
 
 
 
-							</section>
+<!-- Entry 4--><br>
+								<p>
+									<h3>First Peer Discussion - Summary Post</h3>
+									(12 February 2023)
+								</p>	
+								
+								<p>
+									Our discussion revolved around the topic of data cleaning in the context of the Internet of Things (IoT) and the challenges it presents. The article by Huxley (2020), discussed various mathematical transformations in the data-cleaning process. Applying manual processes to Big Data is, however, usually not feasible (Gudivada et al. 2017). Thus, Tejada (2023) outlined the Lambda and Kappa Architectures, which try to solve this problem by processing the data through two paths (batch layer vs speed layer).
+								</p>
+								<p>
+									Another approach mentioned to solve the problem of speedily cleaning massive amounts of real-time IoT data was proposed by Wang et al. (2020). After being asked to elaborate by one of my fellow students, I explained how the authors proposed introducing a set of edge nodes between the IoT sensors and the centralized cloud storage. Each of these nodes would learn the behavior of their subset of attached sensors and then automatically clean data before passing it on to the cloud to get analyzed.
+								</p>
+								<p>
+									With two other students, the discussion centered around the level of necessary cleaning in a Big Data context. I argued that Data Cleaning offers diminishing returns. As one requires more perfect data, the cost of cleaning increases dramatically. It can be difficult to tell when the time has come to stop cleaning (Amadebai 2023). At some point, however, the data is “clean enough” and a trade-off between cleaning costs and tolerating erroneous data points must be made. Additionally, as Weathington (2017) points out, many statistical techniques can account for errors and do not require perfect data.
+								</p>
+								<p>
+									In conclusion, the discussion revealed that data cleaning is a vital part of the Data Science process. However, Big Data, and especially IoT data, strain the limits of manual and semi-automated processes. Instead, automated processes need to be put in place along with robust algorithms that can absorb a certain amount of faulty data.
+								</p>
 
-					</div>
-				</div>
+								<p>
+									<b>Sources</b>
+									<ul>
+										<li>
+											Amadebai, E. (2023) How Much Does Data Cleaning Cost? And Is It Necessary? Available from: https://www.analyticsfordecisions.com/data-cleaning-cost/ [Accessed 12 February 2023].
+										</li>
+										<li>
+											Gudivada, V., Apon, A. & Ding, J. (2017) Data Quality Considerations for Big Data and Machine Learning: Going Beyond Data Cleaning and Transformations. <i>International Journal on Advances in Software</i> 10(1): 1-20.
+										</li>
+										<li>
+											Huxley, K. (2020) ‘Data Cleaning’, in Atkinson, P., Delamont, S., Cernat, A., Sakshaug, J. & Williams, R. (eds.) <i>SAGE Research Methods Foundations</i>. DOI: https://dx.doi.org/10.4135/9781526421036842861
+										</li>
+										<li>
+											Tejada (2023) Big Data Architectures. Available from: https://learn.microsoft.com/en-us/azure/architecture/data-guide/big-data/ [Accessed 12 February 2023].
+										</li>
+										<li>
+											Wang et al. (2020) Big Data Cleaning Based on Mobile Edge Computing in Industrial Sensor-Cloud. <i>IEEE Transactions on Industrial Informatics</i> 16(2): 1321-1329. DOI: https://doi.org/10.1109/TII.2019.2938861
+										</li>
+										<li>
+											Weathington, J. (2917) Stop overdoing it when cleaning your big data. Available from: https://www.techrepublic.com/article/stop-overdoing-it-when-cleaning-your-big-data/ [Accessed 12 February 2023].
+										</li>
+									</ul>
+								</p>
+
 
 			<!-- Footer -->
 				<footer id="footer">
