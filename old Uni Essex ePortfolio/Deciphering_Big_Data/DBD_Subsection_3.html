@@ -1,0 +1,345 @@
+<!DOCTYPE HTML>
+<!--
+	Landed by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Data Cleaning (Units 4-5)</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<h1 id="logo"><a href="Landing_Page_Module_3.html">back</a></h1>
+					<nav id="nav">
+						<ul>
+							<li><a href="index.html">home</a></li>
+							
+							<li><a href="../contact.html">Get in Touch</a></li>
+						</ul>
+					</nav>
+				</header>
+
+			<!-- Main -->
+				<div id="main" class="wrapper style1">
+					<div class="container" align="justify">
+						<header class="major">
+							<h2>Data Cleaning (Units 4-6)</h2>
+							<p>Deciphering Big Data</p>
+						</header>
+
+
+
+<!-- Entry 1--><br>
+							<p>
+								<h3>Generator Expressions</h3>
+								(18 February 2023)
+							</p>	
+
+							<p>
+								This week, I learned about generator expressions for the first time. Generator expressions are similar to list comprehensions but instead of creating a list, they generate the values on-the-fly as they are needed. This makes them more memory efficient, as they only store one value at a time rather than an entire list in memory (PythonTutorial, 2023). One advantage of generator expressions over list comprehensions is their lazy evaluation (Sarkar & Roychowdhury, 2019). Since they generate values on the fly, they can significantly reduce the amount of memory required by certain operations. I expect that this will make generator expressions especially useful in the context of Big Data. Instead of loading an entire dataset into memory, it is possible to go through a dataset item-by-item and thus save time and memory. This property of generator expressions is also a downside, however. Being restricted to item-by-item iterations (Strika, 2018) limits the possible operations that can be performed on a dataset as a whole or slices of it.
+							</p>
+							<p>
+								Here is a quick example of a generator expression I built while playing around with them (there was no formalized exercise in this unit):
+							</p>
+							<pre>
+								<code>
+# Use a generator expression to count the number of characters in each string:
+shakespeare = ['Shall', 'I', 'compare', 'thee', 'to', 'a', 'summers', 'day']
+lengths = [len(word) for word in shakespeare]
+print(lengths)
+								</code>
+							</pre>
+
+							<p>
+								<b>Sources</b>
+								<ul>
+									<li>
+										PythonTutorial (2023) Python Generator Expressions. Available from: https://www.pythontutorial.net/advanced-python/python-generator-expressions/ [Accessed 18 February 2023].
+									</li>
+									<li>
+										Sarkar, T. & Roychowdhury, S. (2019) <i>Data Wrangling with Python</i>. 1st ed. Birmingham: Packt Publishing Ltd.
+									</li>
+									<li>
+										Strika, L. (2018) Python’s Generator Expressions: Fitting Large Datasets into Memory. Available from: https://towardsdatascience.com/pythons-list-generators-what-when-how-and-why-2a560abd3879 [Accessed 18 February 2023].
+									</li>
+								</ul>
+							</p>
+
+
+
+
+<!-- Entry 2--><br>
+							<p>
+								<h3>Data Wrangling Exercise (Week 5)</h3>
+								(25 February 2023)
+							</p>	
+
+							<p>
+								Data wrangling is an essential step in data science. It involves the cleaning, transformation, and preparation of data before it can be analyzed. Python is a powerful language for data wrangling because it offers efficient libraries, such as Pandas. Full disclosure: I have used Python and Pandas many times in my own projects, so I was already very familiar with this week's contents. In this unit, we were asked to conduct a data-wrangling exercise. I chose a slightly different dataset from the one given in the exercise, though the cleaning steps taken are comparable.
+							</p>
+							<p>
+								Using data from the GitHub repository linked in the module’s workspace (Kazil 2014), I loaded two dataframes into a Jupyter Notebook. One contained UNICEF fertility rates and the other contained HIV/AIDS infection rates (ibid.).
+							</p>
+							<pre>
+								<code>
+# Code for loading the two dataframes:
+# Fertility rates:
+url = 'https://raw.githubusercontent.com/jackiekazil/data-wrangling/master/data/unicef/fertility_rate.csv'
+fert = pd.read_csv(url, skiprows=2)
+# HIV rates:
+hiv = pd.read_excel('/content/drive/My Drive/Colab Notebooks/Deciphering Big Data/Week 5 exercize/hiv_aids_2014.xlsx', 
+		sheet_name = 'T3_AdolescentEpi', skiprows=5)
+								</code>
+							</pre>
+							<p>
+								The first and simplest task was to rename a number of columns. I have always found it very helpful to use intuitive column names before starting an analysis. The .rename method in Python makes such a task very simple (Pandas 2023).
+							</p>
+							<pre>
+								<code>
+hiv.rename(columns = {'Total':'Population2014_thousands'}, inplace = True)
+hiv.rename(columns = {'Age 10-19':'Adolescents2014_thousands'}, inplace = True)
+								</code>
+							</pre>
+							<p>
+								Subsetting data allows an analyst to focus on specific portions of a dataset that are particularly relevant. There are many ways of achieving this in Python but in this case, I merely wanted to select a specific set of columns, so I overwrote the original dataframe variable with only these columns.
+							</p>
+							<pre>
+								<code>
+# Subsetting the data:
+hiv = hiv[['country', 'Population2014_thousands', 'Adolescents2014_thousands', 
+						'Adolescents_with_HIV', 'Population_Percentage_Adolescents']]
+								</code>
+							</pre>
+							<p>
+								Another useful data-wrangling technique is removing substrings from values. For this, I opted to use the str.replace method (Pandas 2023). This way, string values can be cleaned and made to conform to the demands of the analysis by removing or altering messy strings.
+							</p>
+							<pre>
+								<code>
+# Clean the Adolescents_with_HIV-column (drop < and >):
+hiv["Adolescents_with_HIV"] = hiv["Adolescents_with_HIV"].str.replace("<","")
+hiv["Adolescents_with_HIV"] = hiv["Adolescents_with_HIV"].str.replace(",","")
+# Clean the data by removing "-" values:
+hiv = hiv.replace('–', np.nan)
+								</code>
+							</pre>
+							<p>
+								Changing the datatype of columns is another very simple yet essential data cleaning step. Using the .astype method (Pandas 2023), columns can quickly be converted into an appropriate data type for analysis. Naturally, certain conditions must be met but in the example at hand, I merely converted a string-encoded number to a float.
+							</p>
+							<pre>
+								<code>
+df['Population_Percentage_Adolescents'] = df['Population_Percentage_Adolescents'].astype(float)
+								</code>
+							</pre>
+							<p>
+								Finally, merging two dataframes is a common operation in data wrangling. This is done using the .merge method (Pandas 2023) to combine different dataframes. There are many merges available in Pandas, similar to SQL joins. In this case, an inner join is performed as I only want to keep data for cases that are present in both dataframes.
+							</p>
+							<pre>
+								<code>
+# Merge the two dataframes by country:
+df = fert.merge(right=hiv, 
+                how='inner', # inner join to only keep data for countries present in both tables
+                left_on = 'Country Name',
+                right_on = 'country')
+								</code>
+							</pre>
+							<p>
+								In conclusion, data wrangling is an often tedious but important task for any data scientist. As with many data science processes, Python is an effective tool for accomplishing it. Renaming columns, removing substrings, changing datatypes, and merging dataframes are just a few examples of techniques that can be used to prepare data for analysis.
+							</p>
+							<p>
+								As this project would have been uninteresting without performing some basic analyses with the freshly cleaned and merged data, here are some of the insights one can gather. First, I wondered which countries had the highest adolescent fertility rates (in 2000) and the highest percentage of adolescents (in 2014).
+							</p>
+							<pre>
+								<code>
+df.nlargest(5, ['2000'])
+# Results: Niger, Chad, Angola, Mali, Uganda
+df.nlargest(5, ['Population_Percentage_Adolescents'])
+# Results: Timor-Leste, Afghanistan, Ethiopia, Uganda, Chad
+								</code>
+							</pre>
+							<p>
+								Next, I wondered whether there was a connection between the fertility rate among adolescents in 2000 and the number of adolescents in 2014. The hypothesis is that more youth pregnancies lead to a higher number of young people 14 years later. The data seems to support this up to a fertility rate of roughly 150 birth per 1.000 women. The line of best fit describes a parabola and appears to slightly fall off after that. However, there are very few data points above the value of 150, so the 95% confidence interval widens and no definitive conclusions are possible. The higher end of the confidence interval would suggest a plateau and the lower end suggests a drop-off. Without additional data, one should be very careful to draw further conclusions.
+							</p>
+							<pre>
+								<code>
+sns.regplot(df['2000'], df['Population_Percentage_Adolescents'], 
+            ci=95, # 95% Confidence Interval
+            order = 2, # Add a polinomial of the power 2 (a simple linear regression clearly doesn't fit the data well)
+            ).set(title='Impact of Adolescent Fertility in 2000 on the Number of Adolescents in 2014',
+                    xlabel = 'Adolescent Fertility Rate in 2000 (per 1.000 women)',
+                    ylabel = 'Percentage of Adolescents in 2014')
+								</code>
+							</pre>
+							<center>
+								<img src="../images/week5_graph1.png" alt="Graph 1" style="height:360px;background-color:rgb(197, 196, 196)">
+							</center>
+							<br><br>
+							<p>
+								Finally, I looked at the connection between adolescent fertility rates and adolescent HIV/AIDS infections. The hypothesis is that higher fertility rates imply more sexual activity and this would increase HIV/AIDS infections. The data did not, however, support this conclusion. The 95% confidence interval encompasses the entire effect range, so no definitive conclusions can be drawn.
+							</p>
+							<pre>
+								<code>
+df['Adolescents_with_HIV'] = df['Adolescents_with_HIV'].astype(float)
+sns.regplot(df['2012'], df['Adolescents_with_HIV'], 
+            ci=95, # 95% Confidence Interval
+            order = 2, # Add a polinomial of the power 2 (a simple linear regression clearly doesn't fit the data well)
+            ).set(title='Impact of Adolescent Fertility in 2012 on the Number of Adolescents with HIV in 2014',
+                    xlabel = 'Adolescent Fertility Rate in 2012 (per 1.000 women)',
+                    ylabel = '% of Adolescents with HIV in 2014')
+								</code>
+							</pre>
+							<center>
+								<img src="../images/week5_graph2.png" alt="Graph 2" style="height:360px;background-color:rgb(197, 196, 196)">
+							</center>
+							<br><br>
+
+							<p>
+								<b>Sources</b>
+								<ul>
+									<li>
+										Kazil, J. (2014) Data Wrangling. Available from: https://github.com/jackiekazil/data-wrangling/tree/master/data/unicef [Accessed 20 February 2023].
+									</li>
+								</ul>
+							</p>
+
+
+
+
+<!-- Entry 3--><br>
+							<p>
+								<h3>Final Data Wrangling Exercise</h3>
+								(27 February 2023)
+							</p>	
+
+							<p>
+								This week consisted mostly of a large Data Wrangling exercise using two datasets from the United Nations (Packt, 2019) and the World Bank Group (ibid.). The task was described as follows: “In India, did the enrollment in primary/secondary/tertiary education increase with the improvement of per capita GDP in the past 15 years?” (Sarkar & Roychowdhury, 2019).
+							</p>
+							<p>
+								As last week’s exercise already included many data-wrangling tasks such as subsetting and merging dataframes, this ePortfolio post will focus on another topic. The main skill I learned from this exercise was linear data imputation. “Interpolation is a technique in Python used to estimate unknown data points between two known data points.” (Chanda, 2022). Basically, imputation allows analysts to make use of observations that are incomplete or missing entirely. 
+							</p>
+							<p>
+								The first step to filling gaps in the data is to identify such gaps. I had subset my data into three separate dataframes. Each contained UN data about Indian school enrollments but for different education levels (primary, secondary, and tertiary). The problem was that several years contained no reported data.
+							</p>
+							<pre>
+								<code>
+# Which Years are Missing for India:
+india_primary = un_data[(un_data['Region/Country/Area'] == 'India') &
+                        (un_data['Data'] == 'Students enrolled in primary education (thousands)')]
+india_secondary = un_data[(un_data['Region/Country/Area'] == 'India') &
+                        (un_data['Data'] == 'Students enrolled in secondary education (thousands)')]
+india_tertiary = un_data[(un_data['Region/Country/Area'] == 'India') &
+                        (un_data['Data'] == 'Students enrolled in tertiary education (thousands)')]
+
+print(india_primary.Year) # We are missing 2004:2009 and 2011:2013
+								</code>
+							</pre>
+							<p>
+								The next step consisted of creating a list of the missing years as well as lists for the other columns in the original dataframe (area, data, value, and footnotes).
+							</p>
+							<pre>
+								<code>
+filler_years = [y for y in range(2004,2010)]+[y for y in range(2011,2014)]
+filler_area = ['India' for y in range(1, 10)]
+filler_data = [np.nan for y in range(1, 10)]
+filler_value = [np.nan for y in range(1, 10)]
+filler_footnotes = [np.nan for y in range(1, 10)]
+print(filler_value)
+								</code>
+							</pre>
+							<p>
+								Next, I combine all of these lists into a dataframe that contains the same columns as the original UN data but only includes the years that were missing.
+							</p>
+							<pre>
+								<code>
+filler_data = pd.DataFrame(list(zip(filler_area, filler_years, filler_data, 
+							filler_value, filler_footnotes)),
+               columns =['Region/Country/Area', 'Year', 'Data', 'Value', 'Footnotes'])
+filler_data.head(2)
+								</code>
+							</pre>
+							<p>
+								I merge this new dataframe with the original UN data, sort by year, and reset the index.
+							</p>
+							<pre>
+								<code>
+# Merge this with Original Dataframe:
+india_primary = india_primary.append(filler_data, sort=True)
+india_secondary = india_primary.append(filler_data, sort=True)
+india_tertiary = india_primary.append(filler_data, sort=True)
+
+# Sort by Year and Reset Index:
+india_primary.sort_values(by='Year', inplace=True, ignore_index = True)
+india_secondary.sort_values(by='Year', inplace=True, ignore_index = True)
+india_tertiary.sort_values(by='Year', inplace=True, ignore_index = True)
+india_tertiary.Year
+								</code>
+							</pre>
+							<p>
+								Finally, this is where the actual data imputation takes place, using the series.interpolate method provided by the Pandas library (Pandas, 2023). In simple terms, linear interpolation estimates the missing value to fall on a line between the previous and the following observations (Chanda, 2022).
+							</p>
+							<pre>
+								<code>
+# Fill the Missing Values in the "Value"-Column with Lineary Interpolated Data:
+india_primary['Value'].interpolate(inplace=True, method ='linear')
+india_secondary['Value'].interpolate(inplace=True, method ='linear')
+india_tertiary['Value'].interpolate(inplace=True, method ='linear')
+india_tertiary.head()
+								</code>
+							</pre>
+							<p>
+								In conclusion, Interpolation allows analysts to make use of data that contains missing observations by linearly estimating reasonable values. I would imagine that interpolation works well for columns that are increasing or decreasing monotonously. However, for instances of high volatility (e.g. cryptocurrency prices), interpolation will likely lead to faulty data. I would love to further explore the implications of interpolation further in the upcoming units.
+							</p>
+
+							<p>
+								<b>Sources</b>
+								<ul>
+									<li>
+										Chanda, J. (2022) Interpolation using pandas. Available from: https://www.numpyninja.com/post/interpolation-using-pandas [Accessed 27 February 2023].
+									</li>
+									<li>
+										Packt (2019) Data Wrangling with Python. Lesson 09. Activity 12-15. Available from: https://github.com/TrainingByPackt/Data-Wrangling-with-Python/tree/master/Lesson09/Activity12-15 [Accessed 22 February 2023].
+									</li>
+									<li>
+										Pandas (2023) pandas.Series.interpolate. Available from: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.interpolate.html [Accessed 27 February 2023].
+									</li>
+									<li>
+										Sarkar, T. & Roychowdhury, S. (2019) <i>Data Wrangling with Python</i>. 1st ed. Birmingham: Packt Publishing Ltd.
+									</li>
+								</ul>
+							</p>
+
+
+			<!-- Footer -->
+				<footer id="footer">
+					<ul class="icons">
+						<li><a href="https://twitter.com/RealJohnGeiger" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="https://de.linkedin.com/in/johannes-geiger?trk=people-guest_people_search-card" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+						<li><a href="https://www.instagram.com/realjohngeiger/" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="https://github.com/johnny80y/" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</footer>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
