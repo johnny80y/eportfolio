@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Geiger ePortfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="image main" data-position="center">
+									<img src="images/borealis.jpg" alt="" />
+								</div>
+								<div class="container">
+									<header class="major">
+										<h2>Dynamics of State Sponsored Cyberattacks</h2>
+										<p>Master's Thesis Project</p>
+									</header>
+									<p>As I wrote two master's theses on similar topics, this project description combines 
+									both data analyses. Both papers
+									were eventually published and can be read <a href="http://www.paxetbellum.org/wp-content/uploads/2020/12/Fall-2020-Volume-7.pdf">here</a>
+									and <a href="https://www.paxetbellum.org/wp-content/uploads/2022/02/Pax-et-Bellum-Journal-2021_updated.pdf">here</a>.
+									<br>
+									My first thesis presented an examination of the dynamics of interstate cyber disputes. 
+									More precisely, it explored which country-level factors will lead to a larger/smaller number of cyber 
+									incidents involving that state. A number of different predictors for cyber disputes were tested using 
+									negative binomial regression analysis. I had to combine several datasets to obtain all variables
+									necessary for this analysis. The project was performed in R.<br>
+									<img src="images/MA_Thesis_1_Negative_Binomail_Regression.jpg" alt ="Regression Table" />
+									<br>
+									The regression table shows the coefficients for three models. Initiations regresses the independent variables on the number of 
+									cyberattacks a state is confirmed to have initiated.
+									Victimizations regresses on the number of state sponsored cyberattacks a country has confirmedly suffered.
+									Total Incidents combines both. I will not delve into the details of the model and variables in this ePortfolio.<br>
+									Obviously, many cyberattacks are never made public and many observations in the data (which was country-year-based)
+									contained no reported incident. Therefore, I controlled my findings by also running a zero-inflated negative binomial
+									regression. Still, I was dealing with very limited and underreported data.<br>
+									There are four main takeaways. First, more conventional military 
+									strength also leads a state to be more frequently involved in cyber incidents. 
+									Second, countries that are better connected to the internet employ cyber operations more 
+									often but they are also more appealing targets. Third, having a highly educated population 
+									makes countries more prone to using cyber tactics. Fourth, the dynamics of cyber disputes 
+									differ significantly from those of more conventional conflicts.</p>
+									<p>The second thesis explored the the Democratic and Capitalist Peace. These are a pair of theories based on the empirical observation
+									That democracies never go to war with one another. The Democratic Peace theory states (and I am simplifying dramatically) that democracies
+									view each other as legitimate and resolve their disputes with other democracies diplomatically. <br>
+									By contrast, the Capitalist Peace theory argues that the observed peace between democratic countries is
+									actually due to the fact that democratic countries are usually also economically liberal. This means that they
+									tend to have closer economic ties and they lose our by fighting with each other. Therefore, peace between democracies
+									is not due to their democratic regime characteristics but due to their economic systems.<br>
+									I decided to test whether the underlying observation also holds true for Cyberattacks and not just conventional warfare.
+									Thus, I replicated the statistical models used by Peace theorists but instead of using physical wars as the dependent
+									variable, I used state-vs-state cyberattacks.<br>
+									<img src="images/MA_Thesis_2_Logistic_Regression.jpg" alt="Regression Table 2" />
+									<br>
+									This table shows the results of a logistic regression, performed in R. Again, I combined data from a variety of sources
+									in order to perform my analysis. I discovered two main conclusions: <br>
+									First, democracy decreases the likelihood that two democratic states will experience cyber hostilities. 
+									Similarly, more economic freedom will also reduce cyber conflict. 
+									This suggests that both the democratic and the capitalist peace are observable in cyberspace.
+									</p>
+									<p>I hope you enjoyed this (admittedly somewhat superficial) explanation of my master's projects. 
+									These were the first in-depth statistical analysis projects I have ever done. Despite a lot of self-doubt and anxiety 
+									(which is normal in academia), both projects were a lot of fun and incredible learning opportunities.</p>
+								</div>
+							</section>
+
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; JohannesGeiger. All rights reserved.</li><li>Header image by Tobias Bjørkli</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
