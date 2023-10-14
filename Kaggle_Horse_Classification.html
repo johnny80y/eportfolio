@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Geiger ePortfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="image main" data-position="center">
+									<img src="images/borealis.jpg" alt="" />
+								</div>
+								<div class="container">
+									<header class="major">
+										<a href="index.html"> Back to Main Page</a>
+										<h2>Kaggle Horse Classification Challenge</h2>
+										<p>Predicting Health Outcomes for Horses</p>
+									</header>
+									
+									<p>
+									<h3>Project Outline</h3>
+									
+									This project describes a Kaggle Challenge that asked participants to predict whether horses survived,
+									died, or were euthanized following health complications. The challenge can be found 
+									<a href="https://www.kaggle.com/competitions/playground-series-s3e22"> here</a>. </p>
+									<p>The first step in this project was to examine the data. The dataset contains 29 columns and 1235 rows. 
+									I decided to drop six of the columns because they contained data that was collected after the horse's health
+									outcome was already observed. Thus, including these features would have led to target leakage.
+									This left me with 22 features and one target variable.<br>
+									<img src="images/horse_classification_project/data_head.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br><br>
+									
+									<h3>Exploratory Data Analysis (EDA)</h3>
+									
+									I examinined the variable types and their rough distributions.
+									The prediction target is a nominal variable with three categories: lived (574 cases), died (410 cases), 
+									and euthanized (251 cases).<br>
+									Using Plotly Express, I created several visualizations, an example of which is the following boxplot 
+									showing the horses' rectal temperatures, divided into the target categories.<br>
+									<img src="images/horse_classification_project/rectal_temperature.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br><br>
+									
+									<h3>Missing Values</h3>
+									
+									The Kaggle Challenge claimed that there were no missing values in the data. That, however, is not
+									correct. There were a total of 464 rows containing at least one missing value. 
+									All missing values occurred in categorical features, so I chose to impute them with that feature's most
+									frequent value:
+									<img src="images/horse_classification_project/missing_imputer.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br><br>
+									
+									<h3>Recoding Categorical Variables</h3>
+									
+									The data contained many categorical features, which would be a problem for my machine-learning modelling.
+									Thus, I decided to encode those features using two methods:
+									<li>One hot encoding for nominal variables</li>
+									<li>Ordinal encoding for ordinal variables</li>
+									<br>
+									I defined custom orderings for my ordinal variables (I was using the Scikit Learn library, 
+									which would have ordered my variables alphabetically by default) and then defined my two encoders. 
+									For ease of use, all data pre-processing steps were added into a Column Transformer using the following code:
+									<img src="images/horse_classification_project/pipeline.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br><br>
+									
+									<h3>Model 1: Decision Tree Classifier</h3>
+									
+									I tried three different models, the first being a simple Decision Tree. 
+									<img src="images/horse_classification_project/tree_model.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br>
+									Using cross-validation, the model achieved an average accuracy of about 62%.
+									<img src="images/horse_classification_project/cv_score.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br><br>
+									
+									<h3>Model 2: Random Forest</h3>
+									
+									To get better accuracy, the next model I tried was a Random Forest.
+									<img src="images/horse_classification_project/forest_model.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br>
+									The model achieved an average accuracy of about 69%, which is a decent improvement.
+									<br><br>
+									
+									<h3>Model 3: K Nearest Neighbors</h3>
+									
+									The final model I wanted to try was a KNN model. 
+									<img src="images/horse_classification_project/knn_model.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br>
+									Unfortunately, this model scored the worst, only getting an average accuracy of 61%.
+									<br><br>
+									
+									<h3>Model Choice and Submission</h3>
+									
+									The Random Forest model scored best and will be used for the competition. However, I
+									also want to try and tune the model parameters to improve the accuracy. For this, I
+									follow a tutorial by datascienceLearner, 
+									found <a href="https://www.datasciencelearner.com/how-to-improve-accuracy-of-random-forest-classifier/">here</a>.
+									<br>
+									The parameters I will be tuning are n_estimators and max_depth. Using GridSearchCV, I try several
+									different values:
+									<img src="images/horse_classification_project/tuning.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br>
+									Ultimately, the data concludes that the optimal parameters are max_depth=4 and n_estimators=100. Using these
+									values, the final model scores an average accuracy of 67%, which is worse than using default parameters.
+									Parameter tuning is a topic that I do not have any experience with yet, so I use the default parameters for now.
+									However, I have learned how vital a good understanding of hyperparameters is and I am putting it on my to-do list
+									for further study.
+									<br>
+									<br>
+									
+									<h3>Competition Results</h3>
+									
+									The final step of the project consisted of using my model to predict outcomes for Kaggle's competition data.
+									After submitting my predictions, Kaggle informed me that my predictions were 73% accurate. For reference,
+									the competition winner achieved a score of 78% accuracy, so I feel pretty good about my results. This
+									was a really fun challenge and I loved working through this problem step by step.
+									
+									</p>
+								</div>
+							</section>
+
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; JohannesGeiger. All rights reserved.</li><li>Header image by Tobias Bjørkli</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
