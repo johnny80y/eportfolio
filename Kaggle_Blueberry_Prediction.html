@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Geiger ePortfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="image main" data-position="center">
+									<img src="images/borealis.jpg" alt="" />
+								</div>
+								<div class="container">
+									<header class="major">
+										<a href="index.html"> Back to Main Page</a>
+										<h2>Kaggle Blueberry Yield Prediction Challenge</h2>
+										<p>Predicting Blueberry Yield</p>
+									</header>
+									
+									<p>
+									<h3>Project Outline</h3>
+									
+									In this project, I wanted to practice using Regressors and Hyperparameter Optimization.
+									In particular, it was my goal to learn about LGBM and Optuna. The Kaggle Competition this 
+									project is based on can be found 									
+									<a href="https://www.kaggle.com/competitions/playground-series-s3e14"> here</a>. </p>
+									
+									
+									<h3>Exploratory Data Analysis (EDA)</h3>
+									
+									<p>This Kaggle Challenge used an artificially generated dataset. There were no missing values and no
+									categorical features. No data cleaning was necessary for this dataset.
+									The prediction target is a numerical variable containing the blueberry yield (shown in the very simple histogram below).<br>
+									In total, there are 15 numerical features to help predict the target.
+									<div class="image main" data-position="center">
+									<img align="middle" src="images/blueberry_prediction/blueberry_yield.png" style='height: 80%; width: 80%; object-fit: contain'/>
+									</div>
+									
+									
+									
+									<h3>Model: LGBM Regressor</h3>
+									
+									As I have never used any LGBM models before, I followed 
+									<a href="https://www.analyticsvidhya.com/blog/2021/08/complete-guide-on-how-to-use-lightgbm-in-python/"> <i>this</i></a>
+									 tutorial. The following screenshot shows the basic lgbm setup before tuning the hyperparameters.
+									<img src="images/blueberry_prediction/basic-lgbm.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br>
+									<br>
+									
+									<h3>Hyperparameter Tuning with Optuna</h3>
+									
+									Optuna is <i>the</i> hyperparameter tuning tool used by the Kaggle community. 
+									Due to its popularity and good performance, I also want to start using it. There were several
+									good tutorials online but the most helpful one I found was 
+									<a href="https://forecastegy.com/posts/how-to-use-optuna-to-tune-lightgbm-hyperparameters/"> <i>this</i></a>
+									 one.
+									
+									<br>
+									
+									In simple terms, Optuna allows you to define the parameters you want to tune and then it automatically
+									runs a specified number of models with different combinations of those parameters.
+									While running, it optimizes for a metric such as RSME or MAE (depending on the analyst's choice).
+									I chose to optimize learning_rate, max_depth, and min_data_in_leaf.
+									The optimization metric is set to MAE because this is the metric on which the
+									Kaggle Competition is ultimately scored.
+									<img src="images/blueberry_prediction/optuna_params.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br>
+									
+									I let optuna run for 30 trials (more would probably be better but also take longer) and used the optimal
+									parameters it found for training my final model, which I will use for generating my competition entry. 
+									<img src="images/blueberry_prediction/optuna2.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br>
+									<br>
+									
+									<h3>Final Model Specification and Competition Results</h3>
+									
+									To enter the Kaggle Competition, I need to generate predictions using Kaggle's test data and my
+									newly optimized model. For some reason, optuna returned insane values for the learning_rate parameter,
+									so I manually set it to 0.09, which seemed to work well. I need to look into what I can change 
+									about my trials to get a more reasonable learning_rate (I tried many different trials with different
+									intervals but they all returned values that seemed to maximize, not minimize, my MAE).
+									<br>
+									
+									The specific model I use for my competition predictions is trained using the following code.
+									<img src="images/blueberry_prediction/final_lgbm_model.png" style='height: 100%; width: 100%; object-fit: contain'/>
+									<br>
+									
+									After submitting my predictions to the Kaggle Competition, it was calculated that my model predicted 
+									new data with an MAE of 347.94. The winning entry had achieved an MAE of 327.39. 
+									This was a great first experience using Optuna and LGBM models.							
+									
+
+									
+									</p>
+								</div>
+							</section>
+
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; JohannesGeiger. All rights reserved.</li><li>Header image by Tobias Bjørkli</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
