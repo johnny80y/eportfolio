@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Geiger ePortfolio</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one">
+								<div class="image main" data-position="center">
+									<img src="images/borealis.jpg" alt="" />
+								</div>
+								<div class="container">
+									<header class="major">
+										<a href="index.html"> Back to Main Page</a>
+										<h2>C2C Online Fashion Store</h2>
+										<p>Predicting Customer Activity</p>
+									</header>
+									
+									<p>
+									<h3>Project Outline</h3>
+									
+									Today, we look at a C2C E-commerce store and train two models. 
+									The data is available from <a href="https://www.kaggle.com/datasets/jmmvutu/ecommerce-users-of-a-french-c2c-fashion-store?select=6M-0K-99K.users.dataset.public.csv"> Kaggle</a>
+									and contains close to 100.000 observations. In this shop, users can buy and sell fashion products. 
+									However, most registered users never make a single purchase. 
+									Thus, the store's management wants to predict (1) which users will make at least one purchase and 
+									which will not and (2) how many purchases users will make. 
+									
+									<br><br>
+									
+									<h3>Exploratory Data Analysis (EDA)</h3>
+									
+									The dataset contains almost 100.000 observations, 24 columns, and no missing values. 
+									The prediction target is a variable that counts the number of products a user has purchased. 
+									For task (1), a binary variable is created indicating whether or not a user has ever made a purchase. 
+									<br>
+									I chose seven features for the two prediction tasks. These are the number of followers a user has, 
+									the number of people a user follows, the number of products a user has added to their wishlist, 
+									how long a user has been registered on the store, whether the user has installed the store's 
+									mobile application, the language a user has selected, and the user's gender. 
+									
+									This Tableau Dashboard visualizes a number of relevant metrics:
+									<p><img align="middle" src="images/C2C_Fashion_Project/2024_04_C2C_Dashboard_Screenshot.png" style='height: 100%; width: 100%; object-fit: contain'/></p>
+									
+									
+									
+																	
+									<h3>Data Wrangling</h3>
+									
+									<h4>Outliers</h4>
+									About 95% of users never make a purchase, so the prediction target is zero-inflated. 
+									Defining outliers as those values that lie above (Q3+1.5*IQR), this means that every 
+									customer who has made a purchase is an outlier. A boxplot visualizes the extreme right-skew of the data.
+									
+									<p><img src="images/C2C_Fashion_Project/Boxplot_Products_Bought.png" style='height: 50%; width: 50%; object-fit: contain'/></p>
+									
+									Clearly, this makes no sense, so I calculate 
+									outliers based on a subset of active customers (meaning those, who have made at least one purchase). 
+									This leaves us with 913 outliers, to which I assign the value of (Q3+1.5*IQR).
+									
+									
+																		
+									<br><br>
+									<h4>Categorical Values</h4>
+									The gender and language variables are categorical. Gender contains two 
+									categories and language contains five. Both features are one-hot encoded to 
+									prepare them for modelling.
+									
+									<br><br>
+									<h4>Data Rebalancing</h4>
+									The first task is to predict which of the customers will make at least one purchase. 
+									As most customers (~95%) never buy anything, I need to rebalance my data. 
+									I use undersampling for hyperparameter tuning and an oversampled dataset for training the final model.
+									
+									
+									<br><br>
+									
+									
+									<h3>Task 1: Classifying Active/Inactive Customers</h3>
+									The task is to train a model that can distinguish between users who make at least one 
+									purchase versus users who do not. I try four different model types: Naive Bayes, a 
+									Decision Tree Classifier, a Random Forest Classifier, and an XGBoost Classifier. 
+									For hyperparameter tuning I use GridSearchCV. 
+									
+									<br>
+									
+									The Random Forest outperforms all other models and is selected as the final model. 
+									Given the unbalanced prediction target, even the best model (both with and without data 
+									rebalancing) struggles to accurately classify users correctly. Recall (the proportion of 
+									actual positives that are correctly classified) is 60.3% and Accuracy (the proportion of 
+									data points that are correctly classified) is 86%. The confusion matrix shows that the 
+									model correctly classifies 918 true positives but contains over 3.000 false positives. 
+									
+									<p><img  src="images/C2C_Fashion_Project/RandomForest_ConfusionMatrix.png" style='height: 65%; width: 65%; object-fit: contain'/></p>
+																		
+																		
+									In a production environment, it would make sense to try and obtain additional data, if possible. 
+									It may be helpful, for example, to know whether a user has provided a payment method when signing up. 
+									Similarly, it may be advantageous to know a user's age group and city of residence, as 
+									residents in certain age groups and more/less wealthy areas may make more/fewer purchases. 
+									However, such considerations would also need to be carefully evaluated in terms of their ethical 
+									implications.
+									
+									<br><br>
+									
+									<h3>Task 2: Using Regression to Predict Purchase Numbers</h3>
+									
+									After classifying users who make purchases versus those, who do not, the next task is to 
+									predict how many purchases a user will make. For this, I only use the subset of users, 
+									who have made at least one purchase. Two models are tested: A Random Forest Regressor and 
+									an XGBoost Regressor. Both are tuned using GridSearchCV. Model accuracy is measured using 
+									the Mean Absolute Error. The Random Forest very slightly outperforms XGBoost with an MAE of 0.71 
+									(the range of the prediction target is [1, 3.5] after adjusting outliers). 
+									This result is good but could be improved by using a wider array of hyperparameters 
+									(I only tuned five) or by including such information as I suggested for the classification task.	
+									
+									<p><img src="images/C2C_Fashion_Project/RandomForest_MAE.png" style='height: 65%; width: 65%; object-fit: contain'/></p>
+
+																		
+									
+									
+									<h3>Conclusion</h3>
+									
+									In summary, it is possible to predict the number of purchases an active customer will make 
+									using a Random Forest model. However, it is difficult to predict whether a customer will 
+									become active (=make one or more purchases) or remain inactive (=never make any purchases). 
+									In a business setting, I would work with the data engineering team to obtain additional 
+									features that may support our classification model. These could include payment information, 
+									age group, city of residence, etc. However, all of this information can be very personal, 
+									so ethical implications would need to be taken into account.
+									
+									<br>
+									The enire Jupyter Notebook is publicly accessible on <a href="https://www.kaggle.com/code/johannesgeiger/c2c-fashion-store-analysis/edit"> Kaggle</a>.
+									
+									
+									
+									</p>
+								</div>
+							</section>
+
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="container">
+							<ul class="copyright">
+								<li>&copy; JohannesGeiger. All rights reserved.</li><li>Header image by Tobias Bjørkli</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
